@@ -10,10 +10,10 @@ Proyecto final del Taller en Énfasis II (Gestión de Mantenimiento, 2026-II), G
 
 | Opción | Pasos |
 |---|---|
-| **Versión entregable** | Doble clic en `ColdLifeCycle.html`. Trae todo adentro (código, librerías y modelos 3D) y no necesita internet ni servidor. |
+| **Versión entregable** | Doble clic en `ColdLifeCycle.html`. Es el único archivo de la entrega: trae adentro código, librerías, modelos 3D, plantilla Excel, CSV de ejemplo y el informe imprimible. No necesita instalar nada, internet ni servidor. |
 | Desde el código | `python -m http.server 8000` en esta carpeta → `http://localhost:8000` |
 
-Para regenerar la versión entregable después de un cambio: `node herramientas/empaquetar.mjs`. Requiere Node 18 o superior y usa esbuild vía npx solo para construir. Produce `ColdLifeCycle.html` y `dist/ColdLifeCycle_entrega.zip`, que incluye además un LEEME y un CSV de ejemplo.
+Para regenerar la versión entregable después de un cambio: `node herramientas/empaquetar.mjs`. Requiere Node 18 o superior y usa esbuild vía npx solo para construir; produce únicamente `ColdLifeCycle.html`. El informe breve de supuestos, fuentes y limitaciones sale de **Datos y supuestos → Imprimir informe completo** (guardar como PDF).
 
 ## Qué responde cada pestaña
 
@@ -59,6 +59,6 @@ src/vistas/           estado, tendencias, alertas, indicadores, modelo (Variable
 src/ui/               cuarto3d (Three.js + GLB), grafico (Chart.js), ayuda (ⓘ), formato
 assets/modelos/       modelos GLB CC0 (unidad condensadora, estantería, canasta, tablero, luminaria)
 vendor/               Three.js r160 + OrbitControls + GLTFLoader, Chart.js 4 + annotation, SheetJS
-data/                 ejemplo_mediciones.csv (simulado, para probar la carga)
+data/                 ejemplo_mediciones.csv (simulado; va embebido en el HTML: botón «Ejemplo CSV»)
 tests/verify.cjs      79 verificaciones de la lógica:  node tests/verify.cjs
 ```

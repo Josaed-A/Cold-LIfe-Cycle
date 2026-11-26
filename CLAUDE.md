@@ -4,7 +4,7 @@
 Proyecto final del Taller en Énfasis II (Gestión de Mantenimiento, Grupo 5): tablero de condición del compresor hermético de un cuarto frío 3 × 3 × 2,5 m. Usa el AMFEC del grupo, el plan de mantenimiento del informe de ciclo de vida, la curva P-F y el RCM. Enunciado: «Proyecto final.pdf» (pestañas Estado, Tendencias, Alertas y acciones, Datos y supuestos + indicadores de proceso). Idioma de UI, código y comentarios: **español**. Proyecto hermano y referencia de estilo: `../Failaria`.
 
 ## Stack (igual que Failaria; no cambiar sin preguntar)
-- HTML + CSS + JavaScript vanilla con ES modules, sin framework ni npm en runtime. esbuild solo al construir (`node herramientas/empaquetar.mjs` → `ColdLifeCycle.html` + `dist/`).
+- HTML + CSS + JavaScript vanilla con ES modules, sin framework ni npm en runtime. esbuild solo al construir (`node herramientas/empaquetar.mjs` → `ColdLifeCycle.html`, el entregable único y autocontenido).
 - `vendor/`: Three.js r160 (+ OrbitControls, GLTFLoader, BufferGeometryUtils), Chart.js 4.4.1 + annotation, SheetJS.
 - Persistencia: `localStorage` clave `coldlife.v1` con respaldo en memoria (visores aislados).
 

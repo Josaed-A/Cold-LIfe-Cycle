@@ -126,5 +126,5 @@ Conclusión: con las frecuencias del plan de la Etapa 6 del informe, cinco de la
 2. En amarillo, abra **Tendencias**: ajuste exponencial, tiempo hasta el paro con su rango, P-F de 30 d y veredicto «sí alcanza» frente a 1 d de preparación.
 3. **Alertas y acciones:** orden P2 (C 45) con tarea RCM, recurso, plazo y costo. Avance al rojo: P1, paro obligatorio en 4 h.
 4. **Variables y P-F:** justifique pesos, umbrales y la regla «medir cada ≤ P-F/2» (el plan actual no la cumple).
-5. **Datos y supuestos:** cargue `data/ejemplo_mediciones.csv` para mostrar que la misma plataforma procesa datos externos, y agregue una medición manual.
+5. **Datos y supuestos:** descargue el ejemplo con **Ejemplo CSV** y cárguelo con **Cargar CSV o Excel** para mostrar que la misma plataforma procesa datos externos, y agregue una medición manual.
 6. Cambie a «M5 · Escarcha / expansión»: con lecturas semanales y P-F de 20 d el veredicto pasa a «no alcanza». Es el caso que muestra el límite del método.

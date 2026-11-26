@@ -1,9 +1,10 @@
 // Datos y supuestos: fuente de datos, carga de archivos, mediciones manuales, etiquetas de origen,
 // supuestos con justificación, fuentes y limitaciones (informe breve imprimible).
 import { info } from '../ui/ayuda.js';
-import { esc, fFecha, fNum, origenHTML } from '../ui/formato.js';
+import { esc, fFecha, fNum, origenHTML, recurso } from '../ui/formato.js';
 import { plantilla, RANGO } from '../datos.js';
 import { descargar } from '../almacen.js';
+import { render as renderModelo } from './modelo.js';
 
 export function render(root, app) {
   const cfg = app.cfg; const s = app.serie; const A = app.A; const st = app.store;
@@ -12,9 +13,9 @@ export function render(root, app) {
   const celda = (v, i) => { const x = s.valores[v.id][i]; if (x === null || x === undefined) return '<td class="n tenue">N/I</td>'; const man = s.manual[`${v.id}|${i}`]; const o = s.origen[v.id][i] || v.origen;
     return `<td class="n">${fNum(x, v.dec)} <span class="compacto">${origenHTML(o, app.simulado && !man)}</span>${man ? `<span class="sub">manual: ${esc(man)}</span>` : ''}</td>`; };
   root.innerHTML = `
-    <div class="cabecera"><div><h1>Datos y supuestos</h1><p>De dónde sale cada número de la plataforma.</p></div>
-      <button class="btn no-print" onclick="print()">Imprimir informe de supuestos</button></div>
     <div class="solo-print"><h2>Informe breve de supuestos, fuentes y limitaciones — Cold Life Cycle</h2><p>${esc(cfg.activo.componente)} · ${esc(cfg.activo.nombre)}. Día de análisis ${fFecha(A.fecha)}.</p></div>
+    <div class="cabecera"><div><h1>Datos y supuestos</h1><p>De dónde sale cada número de la plataforma.</p></div>
+      <button class="btn no-print" id="daInforme">Imprimir informe completo</button></div>
 
     <div class="rejilla c2 no-print">
       <div class="panel"><h3>Fuente de datos ${info('<p>La plataforma funciona con datos simulados o reales; el origen siempre queda visible (franja superior y etiqueta de cada dato).</p><p><b>CSV o Excel</b>: una fila por lectura con columna <code>fecha</code> y las variables (<code>tdesc, corriente, ciclo, tcam, sh, vib</code>; se aceptan nombres en español como «Temperatura de descarga»). Varias lecturas el mismo día se promedian (sirve el registro cada 15 min de un datalogger). Columna opcional <code>origen</code> (medido / inferido / supuesto). Un Excel puede traer además una hoja <b>Eventos</b> con la bitácora de mantenimiento.</p><p>Datos inválidos no se convierten en 0: quedan N/I y se listan en los avisos.</p>')}</h3>
@@ -22,6 +23,7 @@ export function render(root, app) {
         <div class="fila">
           <button class="btn prim" id="daCargar">Cargar CSV o Excel…</button>
           <button class="btn" id="daPlantilla">Plantilla Excel</button>
+          <a class="btn" href="${recurso('data/ejemplo_mediciones.csv')}" download="ejemplo_mediciones.csv">Ejemplo CSV</a>
           <button class="btn" id="daExport">Descargar datos (CSV)</button>
           ${app.simulado ? '' : '<button class="btn" id="daSim">Volver al simulador</button>'}
         </div>
@@ -66,6 +68,13 @@ export function render(root, app) {
 
   root.querySelector('#daCargar').addEventListener('click', () => app.pedirArchivo('datos'));
   root.querySelector('#daSim')?.addEventListener('click', () => { app.usarSimulador(); app.construirBarra(); });
+  // Informe completo (supuestos, fuentes y limitaciones) en una sola impresión: «Variables y P-F» va antes de esta
+  // vista, solo en papel, y se quita al terminar.
+  root.querySelector('#daInforme').onclick = () => {
+    const previo = document.createElement('div'); previo.className = 'solo-print'; previo.style.breakAfter = 'page';
+    renderModelo(previo, app); root.querySelector('.solo-print').after(previo);
+    window.addEventListener('afterprint', () => previo.remove(), { once: true }); print();
+  };
   root.querySelector('#daPlantilla').addEventListener('click', () => {
     const p = plantilla(cfg); const X = window.XLSX; const wb = X.utils.book_new();
     X.utils.book_append_sheet(wb, X.utils.json_to_sheet(p.mediciones), 'Mediciones');
