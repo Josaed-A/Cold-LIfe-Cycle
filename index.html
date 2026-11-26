@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cold Life Cycle · Cuarto frío</title>
+  <meta name="description" content="Cold Life Cycle: tablero de condición del compresor del cuarto frío: índice de salud, tendencias, P-F, alertas con órdenes de trabajo e indicadores de mantenimiento.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230c1320'/%3E%3Cpath d='M16 4v24M6 10l20 12M26 10L6 22' stroke='%237cc4f0' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%232e9e5b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="src/estilos.css">
+  <script src="vendor/xlsx.full.min.js"></script>
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="vendor/chartjs-plugin-annotation.min.js"></script>
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+</head>
+<body>
+  <header class="barra no-print">
+    <a class="marca" href="#/estado" aria-label="Inicio">
+      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M16 3v26M5 9.5l22 13M27 9.5l-22 13" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="16" r="4.2" fill="#2e9e5b"/></svg>
+      <span><b>Cold Life Cycle</b><small>Condición del compresor · Cuarto frío 3 × 3 m</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menú" aria-expanded="false">☰</button>
+    <nav id="nav" class="nav">
+      <a href="#/estado" data-r="estado">Estado</a>
+      <a href="#/tendencias" data-r="tendencias">Tendencias</a>
+      <a href="#/alertas" data-r="alertas">Alertas y acciones <span class="badge" id="badgeAlertas" hidden></span></a>
+      <a href="#/indicadores" data-r="indicadores">Indicadores</a>
+      <a href="#/modelo" data-r="modelo">Variables y P-F</a>
+      <a href="#/datos" data-r="datos">Datos y supuestos</a>
+    </nav>
+  </header>
+  <section class="simbar no-print" id="simbar" aria-label="Fuente de datos y día de análisis"></section>
+  <main id="vista" class="vista" tabindex="-1">
+    <div class="cargando" id="cargando">Cargando…</div>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="archivoDatos" accept=".csv,.xlsx,.xls,.txt" hidden>
+
+  <script>
+    // Si se abre como archivo local, los módulos ES no cargan en la mayoría de los navegadores.
+    setTimeout(function () {
+      if (!window.__appLista) {
+        var c = document.getElementById('cargando');
+        if (c) c.innerHTML = location.protocol === 'file:'
+          ? '<h2>Este archivo es el código fuente</h2><p>Los navegadores bloquean los módulos JavaScript al abrir <code>index.html</code> como archivo. Opciones:</p><ol><li><b>Versión entregable:</b> abra <code>ColdLifeCycle.html</code> (un solo archivo, funciona con doble clic). Se genera con <code>node herramientas/empaquetar.mjs</code>.</li><li>Ejecute <code>python -m http.server 8000</code> en esta carpeta y abra <a href="http://localhost:8000">http://localhost:8000</a>.</li></ol>'
+          : '<h2>No se pudo iniciar la plataforma</h2><p>Revise la consola del navegador.</p>';
+      }
+    }, 2500);
+  </script>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
